@@ -1,0 +1,28 @@
+---
+- name: Deploying Apache container
+  hosts: node1
+  become: true
+  pre_tasks:
+  - name: install pip
+    yum:
+      name: python-pip
+      state: present
+      update_cache: yes
+  - name: install python library for docker {{ task_name }}
+    pip:
+      name: docker
+      extra_args: --ignore-installed requests
+  - name: install docker with python
+    yum:
+      name: docker
+      state: present
+  - name: start docker daemon
+    service:
+      name: docker
+      state: started
+  tasks:
+  - name: create apache container
+    docker_container:
+      name: webapp
+      image: httpd
+      ports: "90:80"
