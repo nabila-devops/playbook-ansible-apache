@@ -26,3 +26,16 @@
       name: webapp
       image: httpd
       ports: "90:80"
+  - name: template the index html
+    template:
+      src: templates/index.html.j2
+      dest: /var/www/html/index.html
+  - name: install git and wget
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - git
+      - wget
+    when:
+      ansible_distribution == "CentOs"
