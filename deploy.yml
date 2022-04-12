@@ -26,10 +26,12 @@
       name: webapp
       image: httpd
       ports: "90:80"
+      volumes:
+        - /home/ec2-user/index.html:/usr/local/apache2/htdocs/index.html
   - name: template the index html
     template:
-      src: templates/index.html.j2
-      dest: /var/www/html/index.html
+      src: index.html.j2
+      dest: /home/ec2-user/index.html
   - name: install git and wget
     yum:
       name: "{{ item }}"
