@@ -2,8 +2,10 @@
 - name: Deploying Apache container
   hosts: node1
   become: true
+  vars_files:
+    files/secrets/credentials.vault
   pre_tasks:
-  - name: install pip
+  - name: install pip {{ansible_password}}
     yum:
       name: python-pip
       state: present
